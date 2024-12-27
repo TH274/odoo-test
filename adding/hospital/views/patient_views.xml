@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_hospital_patient_tree" model="ir.ui.view">
+        <field name="name">hospital.patient.tree</field>
+        <field name="model">hospital.patients</field>
+        <!-- <field name="priority">20</field> -->
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="date_of_birth" optional="show"/>
+                <field name="gender" optional="hidden" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hospital_patient_form" model="ir.ui.view">
+        <field name="name">hospital.patient.form</field>
+        <field name="model">hospital.patients</field>
+        <field name="arch" type="xml">
+            <form string="Patients">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="date_of_birth" />
+                        </group>
+                        <group>
+                            <field name="gender" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hospital_patient" model="ir.actions.act_window">
+        <field name="name">Patients</field>
+        <field name="res_model">hospital.patients</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[Command.clear(),
+                                 (0,0,{'view_mode':'tree','view_id':ref('view_hospital_patient_tree')}),
+                                 (0,0,{'view_mode':'form','view_id':ref('view_hospital_patient_form')})]"/>
+        <field name="help" type="html">
+            <p class="a_view_nocontent_selling_face">
+                Create a new patient
+            </p>
+        </field>
+    </record>
+</odoo>
